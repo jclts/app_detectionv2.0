@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+  python-app:
+    build:
+      context: .
+      dockerfile: ./Model_python/dockerfile.python
+    image: my-python-app 
+    volumes:
+      - ./Model_python:/app/Model_python
+      - ./uploads:/app/uploads
+    environment:
+      - PYTHONPATH=/app/Model_python
+    ports:
+      - "5000:5000"  # Python Flask API
+    networks:
+      - app-network
+    mem_limit: 1gb
+ 
+
+  nodejs-app:
+    build:
+      context: .
+      dockerfile: ./nodejs_app/dockerfile.nodejs
+    image: my-nodejs-app
+    volumes:
+      - ./nodejs_app:/app/nodejs_app
+      - ./uploads:/app/nodejs_app/uploads
+    ports:
+      - "3000:3000"  # Node.js application
+    networks:
+      - app-network
+    mem_limit: 500mb
+
+networks:
+  app-network:
+    driver: bridge

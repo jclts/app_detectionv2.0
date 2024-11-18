@@ -1,0 +1,17 @@
+# Sử dụng Python 3.9 làm base image
+FROM python:3.9
+
+# Cài đặt các thư viện hệ thống cần thiết
+RUN apt-get update && apt-get install -y libgl1
+
+# Thiết lập thư mục làm việc trong container
+WORKDIR /app/Model_python
+
+# Sao chép mã nguồn Python và file requirements.txt
+COPY ./Model_python /app/Model_python
+
+# Cài đặt các phụ thuộc Python
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Mở lệnh chạy ứng dụng
+CMD ["python", "detect_api.py"]

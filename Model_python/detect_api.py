@@ -2,11 +2,10 @@ from flask import Flask, request, jsonify
 import os
 from PIL import Image
 import torch
-import io
 
 app = Flask(__name__)
 
-UPLOAD_FOLDER = 'uploads'
+UPLOAD_FOLDER = '/app/uploads'  # Đường dẫn trong container
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
 # Tải mô hình YOLOv5
@@ -53,4 +52,5 @@ def detect_objects(image):
     return detection_result
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5000)
+    # Sử dụng '0.0.0.0' để API Flask chấp nhận kết nối từ các container khác
+    app.run(debug=True, host='0.0.0.0', port=5000)
